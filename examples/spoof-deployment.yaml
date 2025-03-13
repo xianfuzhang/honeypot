@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: honey
+  namespace: defense
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: honey
+  template:
+    metadata:
+      labels:
+        app: honey
+    spec:
+      containers:
+      - name: poison
+        image: honeypot:0.1.0
+        imagePullPolicy: IfNotPresent

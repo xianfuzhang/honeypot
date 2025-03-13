@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: attack
+---
+apiVersion: k8s.ovn.org/v1
+kind: VPCSubnet
+metadata:
+  name: a-vsnet
+  namespace: attack
+spec:
+  vpc: "vnet"
+  cidr: "10.144.10.0/24"

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sniff
+  namespace: attack
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sniff
+  template:
+    metadata:
+      labels:
+        app: sniff
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:latest
+        imagePullPolicy: IfNotPresent
+        command:
+        - sleep
+        - "3600"
