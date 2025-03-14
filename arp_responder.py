@@ -1,6 +1,7 @@
 from scapy.all import ARP, Ether, IP, ICMP, Raw, sendp, sniff, sys
 import netifaces as ni
 import logging
+import signal
 
 logging.basicConfig(
     stream=sys.stdout,
@@ -12,6 +13,10 @@ logger = logging.getLogger(__name__)
 interface = "eth0"
 local_ip = None
 local_mac = None
+
+def signal_handler(sig, frame):
+    logger.warning("Received signal %s.Exiting gracefully.", sig)
+    sys.exit(0)
 
 def get_interface_ip_mac(interface):
     global local_ip, local_mac
@@ -59,6 +64,9 @@ if __name__ == "__main__":
         logger.info("Use default interface name eth0, or you can pass the interface name you want.")
     else:
         interface =sys.argv[1]
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
 
     get_interface_ip_mac(interface)
     logger.info("Starting ARP/ICMP responder on %s (IP: %s, MAC: %s...)", interface, local_ip, local_mac)
