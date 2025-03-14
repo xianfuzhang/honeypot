@@ -12,6 +12,8 @@ spec:
     metadata:
       labels:
         app: honey
+      annotations:
+        k8s.ovn.org/pod-networks: '{"default":{"promisc":true}}'
     spec:
       containers:
       - name: poison
